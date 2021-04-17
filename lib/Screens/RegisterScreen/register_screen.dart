@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop714/Screens/Auth/firebase_api.dart';
+import 'package:shop714/Screens/HomeScreen/home_screen.dart';
 import 'package:shop714/components/button_component.dart';
 import 'package:shop714/components/link_text_component.dart';
 import 'package:shop714/components/text_field_component.dart';
@@ -71,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       String _passwordError = _passwordValidator(password);
       String _emailError = _emailValidator(email);
       if (_emailError == null) {
-        if (password.length < 12) {
+        if (password.length < 8) {
           return 'Password should be more than 12 characters';
         } else {
           if (password == conPassword) {
@@ -186,6 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (_validation == null) {
                           FocusScope.of(context).unfocus(); //to hide keyboard
                           // _submitForm(context, model.email, model.password);
+                          print('Validate');
                           _apiServices
                               .createUserWithEmail(
                                   email: _emailController.text,
@@ -193,14 +195,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               .then((res) {
                             if (res == "success") {
                               print("User crated Successfully");
+
+                              _emailController.clear();
+                              _passwordController.clear();
+                              _conPasswordController.clear();
+                              Navigator.pushReplacementNamed(
+                                  context, HomeScreen.routeName);
                             } else {
-                              print(res);
+                              print("Error : " + res);
                             }
                           });
-                          _emailController.clear();
-                          _passwordController.clear();
-                          _conPasswordController.clear();
                         } else {
+                          print(_validation);
                           // _errorMessage(context, _validation);
                         }
                       },

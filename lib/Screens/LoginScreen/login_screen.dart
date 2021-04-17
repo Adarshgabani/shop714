@@ -1,6 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shop714/Screens/Auth/firebase_api.dart';
+import 'package:shop714/Screens/HomeScreen/home_screen.dart';
 import 'package:shop714/Screens/RegisterScreen/register_screen.dart';
 import 'package:shop714/components/button_component.dart';
 import 'package:shop714/components/link_text_component.dart';
@@ -34,18 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
-  //
-  // _submitForm(context, email, password) {
-  //   _scaffoldKey.currentState
-  //     ..removeCurrentSnackBar()
-  //     ..showSnackBar(
-  //       SnackBar(
-  //         // backgroundColor: Colors.red,
-  //         content: Text('$email , $password'),
-  //         duration: Duration(milliseconds: 4000),
-  //       ),
-  //     );
-  // }
 
   // _errorMessage(context, message) {
   //   _scaffoldKey.currentState
@@ -119,18 +107,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           print(_emailController.text);
 
                           FocusScope.of(context).unfocus(); //to hide keyboard
-                          _apiServices.signInWithEmail(
-                              email: _emailController.text,
-                              password: _passwordController.text).then((res) {
-                                if(res == "success"){
-                                  print("Success Fully loggedin");
-                                }else{
-                                  print(res);
-                                }
+                          _apiServices
+                              .signInWithEmail(
+                                  email: _emailController.text,
+                                  password: _passwordController.text)
+                              .then((res) {
+                            if (res == "success") {
+                              print("Success Fully loggedin");
+                              _emailController.clear();
+                              _passwordController.clear();
+                              Navigator.pushReplacementNamed(
+                                  context, HomeScreen.routeName);
+                            } else {
+                              print(res);
+                            }
                           });
-
-                          _emailController.clear();
-                          _passwordController.clear();
                         } else {}
                       },
                     ),
