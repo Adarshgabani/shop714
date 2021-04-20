@@ -31,7 +31,7 @@ class _NumericCounterButtonState extends State<NumericCounterButton> {
         children: [
           Text(
             'Select Quantity',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
           SizedBox(
             height: 5,
@@ -46,8 +46,8 @@ class _NumericCounterButtonState extends State<NumericCounterButton> {
                     Icons.remove_circle_outline,
                     color: Colors.black,
                   ),
-                  padding: EdgeInsets.only(left: 0, right: 30, bottom: 0),
-                  iconSize: 28.0,
+                  padding: EdgeInsets.only(left: 0, right: 25, bottom: 0),
+                  iconSize: 24.0,
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
                     setState(() {
@@ -63,7 +63,7 @@ class _NumericCounterButtonState extends State<NumericCounterButton> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -73,7 +73,7 @@ class _NumericCounterButtonState extends State<NumericCounterButton> {
                     color: Colors.black,
                   ),
                   padding: EdgeInsets.only(left: 25, right: 0),
-                  iconSize: 28.0,
+                  iconSize: 24.0,
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
                     setState(() {

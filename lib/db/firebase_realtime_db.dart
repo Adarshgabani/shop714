@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:shop714/Models/ads_model.dart';
 import 'package:shop714/Models/category_model.dart';
 import 'package:shop714/Models/product_model.dart';
 
@@ -28,13 +29,28 @@ class FirebaseDbApi {
 
     return data
         .map((element) => ProductModel(
-            id: element['id'].toString(),
-            categoryId: element['category_id'].toString(),
-            name: element["name"].toString(),
-            description: element['desc'].toString(),
-            price: element['price'].toString(),
-            sellPrice: element["sell_price"].toString(),
-            imageUrl: element["image_url"].toString()))
+              id: element['id'].toString(),
+              categoryId: element['category_id'].toString(),
+              name: element["name"].toString(),
+              description: element['desc'].toString(),
+              price: element['price'].toString(),
+              sellPrice: element["sell_price"].toString(),
+              imageUrl: element["image_url"].toString(),
+              stock: element['stock'].toString(),
+            ))
+        .toList();
+  }
+
+  Future<List<AdsModel>> getAdsData() async {
+    List data;
+    print("-------------------------------------------");
+    await _firebasedb.once().then((res) {
+      data = res.value['ads']['data'];
+      print(data);
+    });
+
+    return data
+        .map((e) => AdsModel(imageUrl: e["image_url"].toString()))
         .toList();
   }
 }

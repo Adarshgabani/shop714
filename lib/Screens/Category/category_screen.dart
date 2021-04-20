@@ -50,6 +50,7 @@ class CategoryScreen extends StatelessWidget {
                       return Container(
                         margin: EdgeInsets.only(bottom: 10),
                         child: ProductCard(
+                          stock:product.stock,
                           productId: product.id,
                           categoryId: product.categoryId,
                           sellPrice: product.sellPrice.toString(),

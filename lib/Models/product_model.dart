@@ -8,6 +8,7 @@ class ProductModel {
   String imageUrl;
   String price;
   String sellPrice;
+  String stock;
 
   ProductModel({
     this.id,
@@ -17,5 +18,6 @@ class ProductModel {
     this.name,
     this.price,
     this.sellPrice,
+    this.stock,
   });
 }

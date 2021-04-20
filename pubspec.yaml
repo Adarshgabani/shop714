@@ -32,7 +32,10 @@ dependencies:
   firebase_core: ^1.0.3
   firebase_auth: ^1.1.0
   firebase_database: ^6.1.2
+  firebase_storage: ^8.0.4
   provider: ^5.0.0
+  firebase_image: ^1.0.1
+  carousel_slider: ^3.0.0
 
 
 dev_dependencies:

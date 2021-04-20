@@ -73,7 +73,9 @@ class ProductDetailScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(
                             right: 30, left: 30, bottom: 10),
-                        child: DetailScreenImage(url: product.imageUrl),
+                        child: Hero(
+                            tag: product.imageUrl,
+                            child: DetailScreenImage(url: product.imageUrl)),
                       ),
                       Container(
                         child: Column(
@@ -84,7 +86,7 @@ class ProductDetailScreen extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Expanded(
-                                      flex: 3,
+                                      flex: 4,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -95,7 +97,8 @@ class ProductDetailScreen extends StatelessWidget {
                                               style:
                                                   kLargeBoldTextStyle.copyWith(
                                                       fontWeight:
-                                                          FontWeight.w500),
+                                                          FontWeight.w500,
+                                                      fontSize: 18),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -143,7 +146,7 @@ class ProductDetailScreen extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
                                     child: NumericCounterButton(
@@ -221,6 +224,7 @@ class ProductDetailScreen extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
                               child: ProductHorizontalListView(
+                                  productId: product.id,
                                   categoryId: args.categoryId,
                                   title: 'Similar Product',
                                   routeName: CategoryScreen.routeName),

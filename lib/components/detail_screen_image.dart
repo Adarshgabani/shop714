@@ -1,3 +1,4 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop714/const/const.dart';
 
@@ -11,7 +12,7 @@ class DetailScreenImage extends StatelessWidget {
       // width: double.infinity,
       height: kHeight300,
       decoration: BoxDecoration(
-        image: DecorationImage(fit: BoxFit.contain, image: NetworkImage(url)),
+        image: DecorationImage(fit: BoxFit.contain, image: FirebaseImage(url)),
       ),
       // child: Image.asset('assets/images/main.jpg'),
     );

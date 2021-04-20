@@ -1,3 +1,4 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop714/Screens/CartScreen/cart_screen.dart';
 import 'package:shop714/Screens/ProductDetail/product_detail_screen.dart';
@@ -13,7 +14,9 @@ class ProductCard extends StatelessWidget {
   String price;
   String sellPrice;
   String rating;
+  String stock;
   ProductCard({
+    this.stock,
     this.title,
     this.imageUrl,
     this.rating,
@@ -49,6 +52,9 @@ class ProductCard extends StatelessWidget {
               child: Center(
                 child: Container(
                   margin: EdgeInsets.all(10),
+                  child: Image(
+                    image: FirebaseImage(imageUrl),
+                  ),
                   // child: Image.network(imageUrl),
                 ),
               ),
@@ -65,6 +71,13 @@ class ProductCard extends StatelessWidget {
                       title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      "In Stock $stock",
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [

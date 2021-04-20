@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop714/Models/ads_model.dart';
 import 'package:shop714/Models/category_model.dart';
 import 'package:shop714/Models/product_model.dart';
 import 'package:shop714/db/firebase_realtime_db.dart';
@@ -7,6 +8,7 @@ class AppDataState extends ChangeNotifier {
   FirebaseDbApi _db = FirebaseDbApi();
   List<CategoryModel> categoryList = [];
   List<ProductModel> productList = [];
+  List<AdsModel> adsList = [];
 
   void setCategoryList({List<CategoryModel> data}) {
     categoryList = data;
@@ -16,6 +18,14 @@ class AppDataState extends ChangeNotifier {
   void setProductList({List<ProductModel> data}) {
     productList = data;
     notifyListeners();
+  }
+
+  Future<List<AdsModel>> getAdsList() async {
+    if (adsList.length == 0) {
+      await _db.getAdsData().then((value) => adsList = value);
+      notifyListeners();
+    }
+    return adsList;
   }
 
   Future<List<CategoryModel>> getCategoryList() async {

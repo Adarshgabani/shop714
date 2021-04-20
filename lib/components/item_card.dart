@@ -1,3 +1,4 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 // import 'package:matemart/Screens/Category/category_screen.dart';
 import 'package:shop714/const/const.dart';
@@ -35,7 +36,13 @@ class ItemCard extends StatelessWidget {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.only(
+                  left: 15, top: 15, right: 15, bottom: 30),
+              child: Center(
+                child: Hero(
+                    tag: imageUrl,
+                    child: Image(image: FirebaseImage(imageUrl))),
+              ),
               // child: Center(child: Image.network(imageUrl)),
             ),
             Padding(

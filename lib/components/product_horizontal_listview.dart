@@ -12,10 +12,12 @@ class ProductHorizontalListView extends StatelessWidget {
   String routeName;
   String title;
   String categoryId;
+  String productId;
   ProductHorizontalListView({
     @required this.routeName,
     @required this.categoryId,
     @required this.title,
+    this.productId = "-1",
   });
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,9 @@ class ProductHorizontalListView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     ProductModel product = snapshot.data[index];
                     print('-------${product?.name}');
-
+                    if (productId == product.id) {
+                      return Container();
+                    }
                     return Container(
                       margin: EdgeInsets.only(right: 10),
                       child: ItemCard(
