@@ -30,6 +30,7 @@ final kWidth40 = getScreenWidthandSet(40);
 // final kWidth60 = getScreenWidthandSet(60);
 final kWidth150 = getScreenWidthandSet(150);
 final kWidth170 = getScreenWidthandSet(170);
+final kWidth165 = getScreenWidthandSet(165);
 final kWidth250 = getScreenWidthandSet(250);
 final kWidth320 = getScreenWidthandSet(320);
 final kWidthInfinity = SizeConfig.screenWidth;
@@ -54,10 +55,11 @@ TextStyle kMediumTextStyle = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500);
 TextStyle kRegularTextStyle = TextStyle(
-    fontSize: 14,
-    color: kGreyTextColor,
-    fontFamily: 'Roboto',
-    fontWeight: FontWeight.w400);
+  fontSize: 14,
+  color: kGreyTextColor,
+  fontFamily: 'Playfair',
+  fontWeight: FontWeight.w400,
+);
 TextStyle kLargeTextStyle = TextStyle(
     fontSize: 23,
     color: Colors.black,
@@ -74,7 +76,7 @@ TextStyle kLargeBoldPriceTextStyle = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w600);
 TextStyle kSmallTextStyle = TextStyle(
-    fontSize: 14,
+    fontSize: 12,
     color: Colors.black,
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w400);

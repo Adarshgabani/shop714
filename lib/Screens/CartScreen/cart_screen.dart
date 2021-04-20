@@ -10,27 +10,45 @@ class CartScreen extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            icon: Icon(Icons.menu),
-            padding: EdgeInsets.all(0),
-            color: Colors.black54,
-            iconSize: 30,
-            onPressed: () {},
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              print('object');
+              // _apiServices.signOut().then((value) => print(value));
+              // Navigator.pushReplacementNamed(context, '/');
+            },
+            child: Container(
+              width: 30,
+              margin: EdgeInsets.all(5),
+              child: Icon(
+                Icons.menu,
+                color: Colors.black,
+                size: 24,
+              ),
+            ),
           ),
           Container(
             width: 22,
           )
         ],
         leadingWidth: 80,
-        leading: Container(
-          child: TextButton(
-            child: SizedBox(
-              width: 20,
-              child: Icon(Icons.arrow_back),
+        leading: Hero(
+          tag: "back",
+          child: Container(
+            child: TextButton(
+              child: SizedBox(
+                width: 20,
+                child: Icon(
+                  Icons.arrow_back_sharp,
+                  color: Colors.black,
+                  size: 22,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
         ),
         centerTitle: true,

@@ -11,27 +11,35 @@ AppBar AppBarWidget(BuildContext context) {
     elevation: 0,
     automaticallyImplyLeading: false,
     actions: [
-      IconButton(
-        icon: Icon(
+      InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Icon(
           Icons.shopping_cart,
           color: Colors.black,
+          size: 22,
         ),
-        onPressed: () {
+        onTap: () {
           Navigator.pushNamed(context, CartScreen.routeName);
         },
       ),
-      IconButton(
-        icon: Icon(
-          Icons.menu,
-          color: Colors.black,
-        ),
-        padding: EdgeInsets.all(0),
-        iconSize: 28,
-        onPressed: () {
+      InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: () {
           print('object');
-          _apiServices.signOut().then((value) => print(value));
-          Navigator.pushReplacementNamed(context, '/');
+          // _apiServices.signOut().then((value) => print(value));
+          // Navigator.pushReplacementNamed(context, '/');
         },
+        child: Container(
+          width: 30,
+          margin: EdgeInsets.all(5),
+          child: Icon(
+            Icons.menu,
+            color: Colors.black,
+            size: 24,
+          ),
+        ),
       ),
       Container(
         width: 22,
@@ -62,41 +70,57 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
     elevation: 0,
     automaticallyImplyLeading: false,
     actions: [
-      IconButton(
-        icon: Icon(
+      InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        child: Icon(
           Icons.shopping_cart,
           color: Colors.black,
+          size: 22,
         ),
-        onPressed: () {
+        onTap: () {
           Navigator.pushNamed(context, CartScreen.routeName);
         },
       ),
-      IconButton(
-        icon: Icon(
-          Icons.menu,
-          color: Colors.black,
+      InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: () {
+          print('object');
+          // _apiServices.signOut().then((value) => print(value));
+          // Navigator.pushReplacementNamed(context, '/');
+        },
+        child: Container(
+          width: 30,
+          margin: EdgeInsets.all(5),
+          child: Icon(
+            Icons.menu,
+            color: Colors.black,
+            size: 24,
+          ),
         ),
-        padding: EdgeInsets.all(0),
-        iconSize: 28,
-        onPressed: () {},
       ),
       Container(
         width: 22,
       )
     ],
     leadingWidth: 80,
-    leading: Container(
-      child: TextButton(
-        child: SizedBox(
-          width: 20,
-          child: Icon(
-            Icons.arrow_back_sharp,
-            color: Colors.black,
+    leading: Hero(
+      tag: "back",
+      child: Container(
+        child: TextButton(
+          child: SizedBox(
+            width: 20,
+            child: Icon(
+              Icons.arrow_back_sharp,
+              color: Colors.black,
+              size: 22,
+            ),
           ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
       ),
     ),
     centerTitle: true,

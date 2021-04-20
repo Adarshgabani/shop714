@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop714/Screens/CartScreen/cart_screen.dart';
+import 'package:shop714/Screens/ProductDetail/product_detail_screen.dart';
 // import 'package:shop714/Screens/ProductDetail/product_detail_screen.dart';
 import 'package:shop714/components/cart_button.dart';
 import 'package:shop714/const/const.dart';
@@ -26,12 +27,12 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.pushNamed(context, ProductDetailScreen.routeName,
-        //     arguments: ProductDetailArgs(
-        //       title: 'Product Details',
-        //       categoryId: categoryId,
-        //       productId: productId,
-        //     ));
+        Navigator.pushNamed(context, ProductDetailScreen.routeName,
+            arguments: ProductDetailArgs(
+              title: 'Product Details',
+              categoryId: categoryId,
+              productId: productId,
+            ));
       },
       child: Container(
         // width: double.infinity,

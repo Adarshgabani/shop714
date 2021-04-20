@@ -34,7 +34,7 @@ class FirebaseDbApi {
             description: element['desc'].toString(),
             price: element['price'].toString(),
             sellPrice: element["sell_price"].toString(),
-            imageUrl: element["url"].toString()))
+            imageUrl: element["image_url"].toString()))
         .toList();
   }
 }

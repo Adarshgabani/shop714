@@ -25,9 +25,17 @@ class ProductHorizontalListView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: kLargeBoldTextStyle,
+            Container(
+              width: kWidth250,
+              child: Text(title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: kSmallTextStyle.copyWith(
+                      fontFamily: 'Playfair',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300)
+                  // kLargeBoldTextStyle,
+                  ),
             ),
             InkWell(
               onTap: () {
@@ -38,14 +46,20 @@ class ProductHorizontalListView extends StatelessWidget {
               child: Container(
                 child: Row(
                   children: [
-                    Text(
-                      'View all ',
-                      style:
-                          kSmallTextStyle.copyWith(fontWeight: FontWeight.w600),
-                    ),
+                    Text('View all ',
+                        style: kSmallTextStyle.copyWith(
+                            fontFamily: 'Playfair',
+                            fontSize: 14,
+                            color: kBlueColor)
+                        // kSmallTextStyle.copyWith(fontWeight: FontWeight.w600),
+                        ),
                     SizedBox(
-                      width: 15,
-                      child: Image.asset('assets/images/right_icon.png'),
+                      width: 20,
+                      child: Icon(
+                        Icons.arrow_forward,
+                        size: 16,
+                        color: kBlueColor,
+                      ),
                     )
                   ],
                 ),

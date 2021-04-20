@@ -23,7 +23,7 @@ class ItemCard extends StatelessWidget {
       // margin: EdgeInsets.only(right: 10),
       // width: double.infinity,
       // height: kHeight170,
-      width: kWidth170,
+      width: kWidth165,
       decoration: BoxDecoration(
         color: bgColor ?? kGreyCardColor,
         borderRadius: BorderRadius.circular(10),
