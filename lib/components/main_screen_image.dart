@@ -7,50 +7,53 @@ import 'package:shop714/const/const.dart';
 import 'package:shop714/db/firebase_realtime_db.dart';
 
 class MainScreenImage extends StatelessWidget {
-  FirebaseDbApi _dbApi = FirebaseDbApi();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<AdsModel>>(
-      future: _dbApi.getAdsData(),
-      builder: (context, snapshot) {
-        print(snapshot.hasData);
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData == null) {
-          return Container(
-            child: Text('waiting....'),
-          );
-        } else if (snapshot.hasData) {
-          print(
-              'sss000000000000000000000000000000000000000000000000000000000000000000');
-
-          // return Container(
-          //   // width: double.infinity,
-          //   height: kHeight250,
-          //   decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(10),
-          //       image: DecorationImage(
-          //           fit: BoxFit.fill,
-          //           image: FirebaseImage(
-          //               "gs://minorproje.appspot.com/shop714/ads_images/cover.jpg"))),
-          //   child: Image.asset('assets/images/main.jpg'),
-          // );
-
-          return AdsSliderImages(data: snapshot.data);
-        } else {
-          return Shimmer.fromColors(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: kGreyBGColor, borderRadius: BorderRadius.circular(10)),
-              margin: EdgeInsets.only(right: 10),
-              height: kHeight250,
-            ),
-            baseColor: kGreyBGColor,
-            highlightColor: Colors.white,
-          );
-        }
-      },
+    return Container(
+      // width: double.infinity,
+      height: kHeight250,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+              fit: BoxFit.fill,
+              image: ExactAssetImage('assets/images/main.jpg'))),
+      // child: Image.asset('assets/images/main.jpg'),
     );
   }
+
+//
+
+  // FirebaseDbApi _dbApi = FirebaseDbApi();
+  // @override
+  // Widget build(BuildContext context) {
+  //   return FutureBuilder<List<AdsModel>>(
+  //     future: _dbApi.getAdsData(),
+  //     builder: (context, snapshot) {
+  //
+  //       if (snapshot.connectionState == ConnectionState.done &&
+  //           snapshot.hasData == null) {
+  //         return Container(
+  //           child: Text('waiting....'),
+  //         );
+  //       } else if (snapshot.hasData) {
+  //
+  //
+  //         return AdsSliderImages(data: snapshot.data);
+  //       } else {
+  //         return Shimmer.fromColors(
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //                 color: kGreyBGColor, borderRadius: BorderRadius.circular(10)),
+  //             margin: EdgeInsets.only(right: 10),
+  //             height: kHeight250,
+  //           ),
+  //           baseColor: kGreyBGColor,
+  //           highlightColor: Colors.white,
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
 }
 
 class AdsSliderImages extends StatefulWidget {

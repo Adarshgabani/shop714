@@ -20,7 +20,6 @@ class HorizontalListView extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    print('${kWidth170}   ${SizeConfig.screenWidth} ');
     return Column(
       children: [
         Row(
@@ -76,32 +75,32 @@ class HorizontalListView extends StatelessWidget {
                   child: Text('waiting....'),
                 );
               } else if (snapshot.hasData) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    CategoryModel category = snapshot.data[index];
-                    print('-------${category?.id}');
-                    return Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: ItemCard(
-                        routeArguments: CategoryArgs(
-                            categoryId: category.id, title: category.name),
-                        routeName: CategoryScreen.routeName,
-                        title: category.name ?? 'title',
-                        categoryId: category?.id,
-                        imageUrl: category?.imageUrl ??
-                            'https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png',
-                      ),
-                    );
+                return NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (overScroll) {
+                    overScroll.disallowGlow();
+                    return;
                   },
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      CategoryModel category = snapshot.data[index];
+                      return Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: ItemCard(
+                          routeArguments: CategoryArgs(
+                              categoryId: category.id, title: category.name),
+                          routeName: CategoryScreen.routeName,
+                          title: category.name ?? 'title',
+                          categoryId: category?.id,
+                          imageUrl: category?.imageUrl ??
+                              'https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png',
+                        ),
+                      );
+                    },
+                  ),
                 );
               } else {
-                // return SizedBox(
-                //   child: CircularProgressIndicator(),
-                //   height: 120,
-                //   width: 120,
-                // );
                 return Shimmer.fromColors(
                     child: Row(
                       children: [

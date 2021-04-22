@@ -28,8 +28,8 @@ AppBar AppBarWidget(BuildContext context) {
         highlightColor: Colors.transparent,
         onTap: () {
           print('object');
-          // _apiServices.signOut().then((value) => print(value));
-          // Navigator.pushReplacementNamed(context, '/');
+          _apiServices.signOut().then((value) => print(value));
+          Navigator.pushReplacementNamed(context, '/');
         },
         child: Container(
           width: 30,
@@ -46,17 +46,23 @@ AppBar AppBarWidget(BuildContext context) {
       )
     ],
     title: Hero(
-      tag: 'logo',
+      tag: 'first',
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        height: kHeight50,
-        // color: Colors.black,
+        // color: Colors.green,
+        padding: EdgeInsets.symmetric(vertical: 0),
         child: Text(
-          "App Logo",
-          style: TextStyle(fontSize: 24, color: Colors.black),
+          "SHOP714",
+          style: TextStyle(
+            fontSize: 22,
+            color: Colors.black,
+            fontFamily: "Roboto",
+          ),
         ),
         // child: Image.asset(
-        //   'assets/images/Logo.png',
+        //   'assets/images/b.png',
+        //   // fit: BoxFit.fitHeight,
+        //   // width: 80,
+        //   // height: 50,
         // ),
       ),
     ),
@@ -64,7 +70,7 @@ AppBar AppBarWidget(BuildContext context) {
 }
 
 AppBar AppBarWithCartWidget({BuildContext context, String title}) {
-  // FirebaseAPIServices _apiServices = FirebaseAPIServices();
+  FirebaseAPIServices _apiServices = FirebaseAPIServices();
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 0,
@@ -87,8 +93,8 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
         highlightColor: Colors.transparent,
         onTap: () {
           print('object');
-          // _apiServices.signOut().then((value) => print(value));
-          // Navigator.pushReplacementNamed(context, '/');
+          _apiServices.signOut().then((value) => print(value));
+          Navigator.pushReplacementNamed(context, '/');
         },
         child: Container(
           width: 30,
@@ -127,6 +133,63 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
     titleSpacing: 10,
     title: Text(
       title,
+      style: TextStyle(color: Colors.black, fontSize: 18),
+    ),
+  );
+}
+
+AppBar CartScreenAppBarWidget({BuildContext context}) {
+  FirebaseAPIServices _apiServices = FirebaseAPIServices();
+  return AppBar(
+    backgroundColor: Colors.white,
+    elevation: 0,
+    automaticallyImplyLeading: false,
+    actions: [
+      InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: () {
+          print('object');
+          _apiServices.signOut().then((value) => print(value));
+          Navigator.pushReplacementNamed(context, '/');
+        },
+        child: Container(
+          width: 30,
+          margin: EdgeInsets.all(5),
+          child: Icon(
+            Icons.menu,
+            color: Colors.black,
+            size: 24,
+          ),
+        ),
+      ),
+      Container(
+        width: 22,
+      )
+    ],
+    leadingWidth: 80,
+    leading: Hero(
+      tag: "back",
+      child: Container(
+        child: TextButton(
+          child: SizedBox(
+            width: 20,
+            child: Icon(
+              Icons.arrow_back_sharp,
+              color: Colors.black,
+              size: 22,
+            ),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    ),
+    centerTitle: true,
+    titleSpacing: 10,
+    title: Text(
+      'Your Cart',
       style: TextStyle(color: Colors.black, fontSize: 18),
     ),
   );

@@ -6,11 +6,12 @@ import 'package:shop714/Models/product_model.dart';
 class FirebaseDbApi {
   DatabaseReference _firebasedb = FirebaseDatabase.instance.reference();
   Future<List<CategoryModel>> getCategoryData() async {
+    print("______________getCategoryData Called_____________");
     List data;
     await _firebasedb.once().then((res) {
       data = res.value['categories']['data'];
     });
-    print(data);
+
     return data
         .map((element) => CategoryModel(
             id: element['id'].toString(),
@@ -21,10 +22,11 @@ class FirebaseDbApi {
   }
 
   Future<List<ProductModel>> getProductData() async {
+    print("______________getProductData Called_____________");
+
     List data;
     await _firebasedb.once().then((res) {
       data = res.value['products']['data'];
-      print(data);
     });
 
     return data
@@ -43,10 +45,9 @@ class FirebaseDbApi {
 
   Future<List<AdsModel>> getAdsData() async {
     List data;
-    print("-------------------------------------------");
+
     await _firebasedb.once().then((res) {
       data = res.value['ads']['data'];
-      print(data);
     });
 
     return data

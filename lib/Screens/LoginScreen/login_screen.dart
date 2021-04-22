@@ -35,16 +35,16 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
   }
 
-  // _errorMessage(context, message) {
-  //   _scaffoldKey.currentState
-  //     ..showSnackBar(
-  //       SnackBar(
-  //         backgroundColor: Colors.red,
-  //         content: Text(message),
-  //         duration: Duration(milliseconds: 2000),
-  //       ),
-  //     );
-  // }
+  _errorMessage(context, message) {
+    _scaffoldKey.currentState
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(message),
+          duration: Duration(milliseconds: 2000),
+        ),
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,19 +66,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // Hero(
-                    //   tag: 'logo',
-                    //   child: Container(
-                    //     width: kWidth250,
-                    //     margin: EdgeInsets.only(
-                    //       bottom: kHeight30,
-                    //     ),
-                    //     child: Image.asset(
-                    //       'assets/images/Logo.png',
-                    //       width: kWidth250,
-                    //     ),
-                    //   ),
-                    // ),
+                    Hero(
+                      tag: 'first',
+                      child: Container(
+                        width: kWidth250,
+                        margin: EdgeInsets.only(
+                          bottom: kHeight30,
+                        ),
+                        child: Image.asset(
+                          'assets/images/logo.PNG',
+                          width: kWidth250,
+                        ),
+                      ),
+                    ),
                     TextFieldComponent(
                       controller: _emailController,
                       lable: 'Email',
@@ -97,15 +98,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 10,
                     ),
                     ButtonComponent(
-                      label: 'SignIn',
+                      label: 'LOGIN',
+
                       onPressed: () {
                         // _email = _emailController.text;
                         // _password = _passwordController.text;
                         String _validation = _validateForm(
                             _emailController.text, _passwordController.text);
                         if (_validation == null) {
-                          print(_emailController.text);
-
                           FocusScope.of(context).unfocus(); //to hide keyboard
                           _apiServices
                               .signInWithEmail(
@@ -120,9 +120,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context, HomeScreen.routeName);
                             } else {
                               print(res);
+                              _errorMessage(context, res);
                             }
                           });
-                        } else {}
+                        } else {
+                          _errorMessage(context, _validation);
+                        }
                       },
                     ),
                   ],

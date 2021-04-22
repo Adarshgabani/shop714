@@ -1,9 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'package:shop714/Screens/HomeScreen/home_screen.dart';
 import 'package:shop714/Screens/LoginScreen/login_screen.dart';
+import 'package:shop714/State/app_state.dart';
 
 class Wrapper extends StatelessWidget {
   static String routeName = '/';
@@ -12,6 +12,7 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _provider = Provider.of<AppDataState>(context, listen: false);
     // return FutureBuilder(
     //   future: _initialization,
     //   builder: (context, snapshot) {
@@ -54,14 +55,25 @@ class Wrapper extends StatelessWidget {
             context, LoginScreen.routeName, (route) => false);
       } else {
         print("User signed in");
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.routeName, (route) => false);
+        _provider.setUserId(id: user.uid);
+        _provider.getProductList();
+        _provider.getCategoryList().then((value) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreen.routeName, (route) => false);
+        });
       }
     });
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
-        child: Text("SplashScreen"),
+        child: Hero(
+          tag: 'first',
+          child: Container(
+            height: 60,
+            child: Image.asset('assets/images/logo.PNG'),
+          ),
+        ),
       ),
     );
   }

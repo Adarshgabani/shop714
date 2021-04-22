@@ -12,7 +12,7 @@ class CartButton extends StatelessWidget {
     this.label,
     this.onPressed,
     this.buttonHeight = 30,
-    this.buttonWidht = null,
+    this.buttonWidht,
     this.borderRadius = 10.0,
     this.fontSize = 14,
   });

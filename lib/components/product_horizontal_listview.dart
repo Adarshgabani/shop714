@@ -83,30 +83,36 @@ class ProductHorizontalListView extends StatelessWidget {
                   child: Text('waiting....'),
                 );
               } else if (snapshot.hasData) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (context, index) {
-                    ProductModel product = snapshot.data[index];
-                    print('-------${product?.name}');
-                    if (productId == product.id) {
-                      return Container();
-                    }
-                    return Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: ItemCard(
-                        routeArguments: ProductDetailArgs(
-                            categoryId: categoryId,
-                            productId: product.id,
-                            title: 'Product Details'),
-                        routeName: ProductDetailScreen.routeName,
-                        bgColor: Color.fromRGBO(253, 253, 253, 1),
-                        title: product.name ?? 'title',
-                        imageUrl: product?.imageUrl ??
-                            'https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png',
-                      ),
-                    );
+                return NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (overScroll) {
+                    overScroll.disallowGlow();
+                    return;
                   },
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (context, index) {
+                      ProductModel product = snapshot.data[index];
+
+                      if (productId == product.id) {
+                        return Container();
+                      }
+                      return Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: ItemCard(
+                          routeArguments: ProductDetailArgs(
+                              categoryId: categoryId,
+                              productId: product.id,
+                              title: 'Product Details'),
+                          routeName: ProductDetailScreen.routeName,
+                          bgColor: Color.fromRGBO(253, 253, 253, 1),
+                          title: product.name ?? 'title',
+                          imageUrl: product?.imageUrl ??
+                              'https://cdn1.iconfinder.com/data/icons/business-company-1/500/image-512.png',
+                        ),
+                      );
+                    },
+                  ),
                 );
               } else {
                 return Shimmer.fromColors(

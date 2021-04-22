@@ -34,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordController.dispose();
     _conPasswordController.dispose();
   }
+
   //
   // _submitForm(context, email, password) {
   //   _scaffoldKey.currentState
@@ -47,17 +48,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //     );
   // }
   //
-  // _errorMessage(context, message) {
-  //   _scaffoldKey.currentState
-  //     ..removeCurrentSnackBar()
-  //     ..showSnackBar(
-  //       SnackBar(
-  //         backgroundColor: Colors.red,
-  //         content: Text(message),
-  //         duration: Duration(milliseconds: 2000),
-  //       ),
-  //     );
-  // }
+  _errorMessage(context, message) {
+    _scaffoldKey.currentState
+      ..removeCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(message),
+          duration: Duration(milliseconds: 2000),
+        ),
+      );
+  }
 
   //if return null than success
 //else return error string
@@ -67,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } else if (password.isEmpty) {
       return 'Please Enter Password';
     } else if (conPassword.isEmpty) {
-      return 'Please Enter Your Name';
+      return 'Please Enter Confirm Password';
     } else {
       String _passwordError = _passwordValidator(password);
       String _emailError = _emailValidator(email);
@@ -96,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     bool emailValid = RegExp(
             r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])")
         .hasMatch(value);
-    // print(value.isValidEmail());
+
     if (value.isEmpty) {
       return "Please enter Email Id";
     }
@@ -121,6 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       body: SafeArea(
         child: Column(
@@ -135,19 +137,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // Hero(
-                    //   tag: 'logo',
-                    //   child: Container(
-                    //     width: kWidth250,
-                    //     margin: EdgeInsets.only(
-                    //       bottom: kHeight30,
-                    //     ),
-                    //     child: Image.asset(
-                    //       'assets/images/Logo.png',
-                    //       width: kWidth250,
-                    //     ),
-                    //   ),
-                    // ),
+                    Hero(
+                      tag: 'first',
+                      child: Container(
+                        width: kWidth250,
+                        margin: EdgeInsets.only(
+                          bottom: kHeight30,
+                        ),
+                        child: Image.asset(
+                          'assets/images/logo.PNG',
+                          width: kWidth250,
+                        ),
+                      ),
+                    ),
                     TextFieldComponent(
                       controller: _emailController,
                       lable: 'Email',
@@ -156,7 +158,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       height: 10,
                     ),
-
                     TextFieldComponent(
                       controller: _passwordController,
                       lable: 'Password',
@@ -172,6 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       lable: 'Confirm Password',
                       obSecureText: true,
                       keyboardType: TextInputType.visiblePassword,
+                      password: true,
                     ),
                     SizedBox(
                       height: 10,
@@ -203,11 +205,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   context, HomeScreen.routeName);
                             } else {
                               print("Error : " + res);
+                              _errorMessage(context, res);
                             }
                           });
                         } else {
                           print(_validation);
-                          // _errorMessage(context, _validation);
+                          _errorMessage(context, _validation);
                         }
                       },
                     ),
@@ -217,7 +220,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             LinkText(
                 textMessage: 'Already a member ? ',
-                link: 'Login In',
+                link: 'Sign In',
                 onTap: () {
                   Navigator.pop(context);
                 }),

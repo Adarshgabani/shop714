@@ -40,58 +40,65 @@ class HomeScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 30),
             margin: EdgeInsets.only(bottom: 10),
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  MainScreenImage(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  HorizontalListView(
-                    title: 'Categories',
-                    future: _provider.getCategoryList(),
-                    routeName: CategoriesScreen.routeName,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  FutureBuilder<List<CategoryModel>>(
+            child: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (overScroll) {
+                overScroll.disallowGlow();
+                return;
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    MainScreenImage(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    HorizontalListView(
+                      title: 'Categories',
                       future: _provider.getCategoryList(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData == null) {
-                          return Container(
-                            child: Text('waiting....'),
-                          );
-                        } else if (snapshot.hasData) {
-                          return ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  margin: EdgeInsets.only(bottom: 30),
-                                  child: ProductHorizontalListView(
-                                    routeName: CategoryScreen.routeName,
-                                    title: snapshot.data[index].name,
-                                    categoryId: snapshot.data[index].id,
-                                  ),
-                                );
-                              });
-                        } else {
-                          return Shimmer.fromColors(
-                              child: Container(
-                                height: kWidth170,
-                                decoration: BoxDecoration(
-                                    color: kGreyBGColor,
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              baseColor: kGreyBGColor,
-                              highlightColor: Colors.white);
-                        }
-                      }),
-                ],
+                      routeName: CategoriesScreen.routeName,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    FutureBuilder<List<CategoryModel>>(
+                        future: _provider.getCategoryList(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData == null) {
+                            return Container(
+                              child: Text('waiting....'),
+                            );
+                          } else if (snapshot.hasData) {
+                            return ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data?.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    margin: EdgeInsets.only(bottom: 30),
+                                    child: ProductHorizontalListView(
+                                      routeName: CategoryScreen.routeName,
+                                      title: snapshot.data[index].name,
+                                      categoryId: snapshot.data[index].id,
+                                    ),
+                                  );
+                                });
+                          } else {
+                            return Shimmer.fromColors(
+                                child: Container(
+                                  height: kWidth170,
+                                  decoration: BoxDecoration(
+                                      color: kGreyBGColor,
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                baseColor: kGreyBGColor,
+                                highlightColor: Colors.white);
+                          }
+                        }),
+                  ],
+                ),
               ),
             ),
           ),

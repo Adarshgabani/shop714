@@ -7,7 +7,7 @@ class FirebaseAPIServices {
           .createUserWithEmailAndPassword(
               email: email.toString().trim(),
               password: password.toString().trim());
-      print(_userCred);
+
       return 'success';
     } on FirebaseException catch (e) {
       if (e.code == 'weak-password') {
@@ -32,11 +32,11 @@ class FirebaseAPIServices {
       return 'success';
     } on FirebaseException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        print('Email/Password wrong.');
         return 'No user found for that email';
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-        return 'Wrong password provided for that user';
+        return 'Email/Password wrong.';
       }
     }
   }

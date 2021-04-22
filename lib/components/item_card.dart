@@ -21,9 +21,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.only(right: 10),
-      // width: double.infinity,
-      // height: kHeight170,
+
       width: kWidth165,
       decoration: BoxDecoration(
         color: bgColor ?? kGreyCardColor,

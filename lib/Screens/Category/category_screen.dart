@@ -45,7 +45,6 @@ class CategoryScreen extends StatelessWidget {
                     itemCount: snapshot.data?.length,
                     itemBuilder: (context, index) {
                       ProductModel product = snapshot.data[index];
-                      print('-------${product?.imageUrl}');
 
                       return Container(
                         margin: EdgeInsets.only(bottom: 10),

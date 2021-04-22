@@ -63,9 +63,9 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                   child: Container(
                     child: Icon(
                       widget.obSecureText
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Colors.black54,
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.black26,
                     ),
                   ),
                 ),

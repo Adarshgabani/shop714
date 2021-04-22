@@ -49,8 +49,6 @@ class CategoriesScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       CategoryModel category = snapshot.data[index];
 
-                      print('grideview::::' + snapshot.data[index].toString());
-
                       return ItemCard(
                         routeName: CategoryScreen.routeName,
                         routeArguments: CategoryArgs(

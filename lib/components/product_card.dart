@@ -1,5 +1,7 @@
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shop714/Screens/CartScreen/CartItems/cart_item.dart';
+import 'package:shop714/Screens/CartScreen/CartItems/cart_services.dart';
 import 'package:shop714/Screens/CartScreen/cart_screen.dart';
 import 'package:shop714/Screens/ProductDetail/product_detail_screen.dart';
 // import 'package:shop714/Screens/ProductDetail/product_detail_screen.dart';
@@ -25,7 +27,7 @@ class ProductCard extends StatelessWidget {
     this.productId,
     this.categoryId,
   });
-
+  CartServices _cartServices = CartServices();
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -101,14 +103,14 @@ class ProductCard extends StatelessWidget {
                     CartButton(
                       label: 'Add to Cart',
                       onPressed: () async {
-                        // CartItem item = CartItem(
-                        //     categoryId: categoryId.toString(),
-                        //     itemId: productId.toString(),
-                        //     quantity: '1');
-                        // List itm = await _cartServices.addToCart(item);
-                        // if (itm.length != 0) {
-                        //   Navigator.pushNamed(context, CartScreen.routeName);
-                        // }
+                        CartItem item = CartItem(
+                            categoryId: categoryId.toString(),
+                            itemId: productId.toString(),
+                            quantity: '1');
+                        List itm = await _cartServices.addToCart(item);
+                        if (itm.length != 0) {
+                          Navigator.pushNamed(context, CartScreen.routeName);
+                        }
                       },
                       borderRadius: 5,
                     ),

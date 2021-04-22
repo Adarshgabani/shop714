@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop714/Models/product_model.dart';
+import 'package:shop714/Screens/CartScreen/CartItems/cart_item.dart';
+import 'package:shop714/Screens/CartScreen/CartItems/cart_services.dart';
 import 'package:shop714/Screens/CartScreen/cart_screen.dart';
 import 'package:shop714/Screens/Categories/Categories.dart';
 import 'package:shop714/Screens/Category/category_screen.dart';
@@ -28,12 +30,12 @@ class ProductDetailScreen extends StatelessWidget {
   int quantity = 1;
 
   static String routeName = '/productdetail';
-
+  CartServices _cartServices = CartServices();
   // to remove html tags from description
-  String removeAllHTMLTages(String htmlText) {
-    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
-    return htmlText.replaceAll(exp, '');
-  }
+  // String removeAllHTMLTages(String htmlText) {
+  //   RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+  //   return htmlText.replaceAll(exp, '');
+  // }
 
   String calculateDiscount(String regular_price, String price) {
     int regularPrice = int.parse(regular_price);
@@ -63,8 +65,7 @@ class ProductDetailScreen extends StatelessWidget {
                 );
               } else if (snapshot.hasData) {
                 ProductModel product = snapshot.data;
-                print('xxxxxxxxxxxxxxxx');
-                print(snapshot.data);
+
                 return Container(
                   // padding: EdgeInsets.symmetric(horizontal: 30),
                   margin: EdgeInsets.only(bottom: 10),
@@ -105,6 +106,13 @@ class ProductDetailScreen extends StatelessWidget {
                                           ),
                                           SizedBox(
                                             height: 5,
+                                          ),
+                                          Text(
+                                            "In Stock ${product.stock}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ],
                                       )),
@@ -154,7 +162,6 @@ class ProductDetailScreen extends StatelessWidget {
                                       minValue: 1,
                                       maxValue: 10,
                                       onChanged: (val) {
-                                        print(val);
                                         quantity = val;
                                       },
                                     ),
@@ -163,18 +170,17 @@ class ProductDetailScreen extends StatelessWidget {
                                     child: CartButton(
                                       label: 'Add to Cart',
                                       onPressed: () async {
-                                        // CartItem item = CartItem(
-                                        //     categoryId:
-                                        //         args.categoryId.toString(),
-                                        //     itemId:
-                                        //         product.productId.toString(),
-                                        //     quantity: quantity.toString());
-                                        // List itm =
-                                        //     await _cartService.addToCart(item);
-                                        // if (itm.length != 0) {
-                                        //   Navigator.pushNamed(
-                                        //       context, CartScreen.routeName);
-                                        // }
+                                        CartItem item = CartItem(
+                                            categoryId:
+                                                args.categoryId.toString(),
+                                            itemId: product.id.toString(),
+                                            quantity: quantity.toString());
+                                        List itm =
+                                            await _cartServices.addToCart(item);
+                                        if (itm.length != 0) {
+                                          Navigator.pushNamed(
+                                              context, CartScreen.routeName);
+                                        }
                                       },
                                       buttonHeight: kWidth40,
                                       buttonWidht: kWidth150,
@@ -203,8 +209,7 @@ class ProductDetailScreen extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 30),
                               child: DescriptionText(
                                 title: 'Description',
-                                description:
-                                    removeAllHTMLTages(product.description),
+                                description: product.description,
                               ),
                             ),
                             SizedBox(
