@@ -1,10 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop714/Screens/Auth/firebase_api.dart';
+import 'package:shop714/Screens/Auth/wrapper.dart';
 import 'package:shop714/Screens/CartScreen/cart_screen.dart';
+import 'package:shop714/Screens/ChangePasswordScreen/change_password_screen.dart';
 import 'package:shop714/const/const.dart';
 
-AppBar AppBarWidget(BuildContext context) {
+Widget createDrawerBodyItem(
+    {IconData icon, String text, GestureTapCallback onTap}) {
+  return ListTile(
+    title: Row(
+      children: <Widget>[
+        Icon(icon),
+        Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text(text),
+        )
+      ],
+    ),
+    onTap: onTap,
+  );
+}
+
+Widget DrawerWidget({BuildContext context, String email = "Guest"}) {
   FirebaseAPIServices _apiServices = FirebaseAPIServices();
+  _signout() {
+    _apiServices.signOut();
+    Navigator.pushReplacementNamed(context, Wrapper.routeName);
+  }
+
+  return Drawer(
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        UserAccountsDrawerHeader(
+          decoration: BoxDecoration(color: kGreyBGColor),
+          accountName: Text(
+            email ?? 'Email',
+            style: TextStyle(color: Colors.black),
+          ),
+          currentAccountPicture: CircleAvatar(
+            backgroundColor: kGreyBorderColor,
+            child: Text(
+              email == null ? 'E' : email[0].toUpperCase(),
+              style: TextStyle(fontSize: 40, color: Colors.black),
+            ),
+          ),
+        ),
+        createDrawerBodyItem(
+            icon: Icons.security,
+            text: "Change Password",
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, ChangePasswordScreen.routeName);
+            }),
+        createDrawerBodyItem(icon: Icons.shopping_cart, text: "Cart"),
+        createDrawerBodyItem(
+            icon: Icons.logout, text: "Logout", onTap: () => _signout()),
+      ],
+    ),
+  );
+}
+
+AppBar AppBarWidget(BuildContext context) {
+  // FirebaseAPIServices _apiServices = FirebaseAPIServices();
   return AppBar(
     titleSpacing: 30,
     backgroundColor: Colors.white,
@@ -23,24 +82,24 @@ AppBar AppBarWidget(BuildContext context) {
           Navigator.pushNamed(context, CartScreen.routeName);
         },
       ),
-      InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: () {
-          print('object');
-          _apiServices.signOut().then((value) => print(value));
-          Navigator.pushReplacementNamed(context, '/');
-        },
-        child: Container(
-          width: 30,
-          margin: EdgeInsets.all(5),
-          child: Icon(
-            Icons.menu,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-      ),
+      // InkWell(
+      //   splashColor: Colors.transparent,
+      //   highlightColor: Colors.transparent,
+      //   onTap: () {
+      //     print('object');
+      //     _apiServices.signOut().then((value) => print(value));
+      //     Navigator.pushReplacementNamed(context, '/');
+      //   },
+      //   child: Container(
+      //     width: 30,
+      //     margin: EdgeInsets.all(5),
+      //     child: Icon(
+      //       Icons.menu,
+      //       color: Colors.black,
+      //       size: 24,
+      //     ),
+      //   ),
+      // ),
       Container(
         width: 22,
       )
@@ -50,27 +109,27 @@ AppBar AppBarWidget(BuildContext context) {
       child: Container(
         // color: Colors.green,
         padding: EdgeInsets.symmetric(vertical: 0),
-        child: Text(
-          "SHOP714",
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.black,
-            fontFamily: "Roboto",
-          ),
-        ),
-        // child: Image.asset(
-        //   'assets/images/b.png',
-        //   // fit: BoxFit.fitHeight,
-        //   // width: 80,
-        //   // height: 50,
+        // child: Text(
+        //   "SHOP714",
+        //   style: TextStyle(
+        //     fontSize: 22,
+        //     color: Colors.black,
+        //     fontFamily: "Roboto",
+        //   ),
         // ),
+        child: Image.asset(
+          'assets/images/logo.png',
+          // fit: BoxFit.fitHeight,
+          width: 100,
+          // height: 50,
+        ),
       ),
     ),
   );
 }
 
 AppBar AppBarWithCartWidget({BuildContext context, String title}) {
-  FirebaseAPIServices _apiServices = FirebaseAPIServices();
+  // FirebaseAPIServices _apiServices = FirebaseAPIServices();
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 0,
@@ -88,24 +147,24 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
           Navigator.pushNamed(context, CartScreen.routeName);
         },
       ),
-      InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: () {
-          print('object');
-          _apiServices.signOut().then((value) => print(value));
-          Navigator.pushReplacementNamed(context, '/');
-        },
-        child: Container(
-          width: 30,
-          margin: EdgeInsets.all(5),
-          child: Icon(
-            Icons.menu,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-      ),
+      // InkWell(
+      //   splashColor: Colors.transparent,
+      //   highlightColor: Colors.transparent,
+      //   onTap: () {
+      //     print('object');
+      //     _apiServices.signOut().then((value) => print(value));
+      //     Navigator.pushReplacementNamed(context, '/');
+      //   },
+      //   child: Container(
+      //     width: 30,
+      //     margin: EdgeInsets.all(5),
+      //     child: Icon(
+      //       Icons.menu,
+      //       color: Colors.black,
+      //       size: 24,
+      //     ),
+      //   ),
+      // ),
       Container(
         width: 22,
       )
@@ -139,30 +198,30 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
 }
 
 AppBar CartScreenAppBarWidget({BuildContext context}) {
-  FirebaseAPIServices _apiServices = FirebaseAPIServices();
+  // FirebaseAPIServices _apiServices = FirebaseAPIServices();
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 0,
     automaticallyImplyLeading: false,
     actions: [
-      InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: () {
-          print('object');
-          _apiServices.signOut().then((value) => print(value));
-          Navigator.pushReplacementNamed(context, '/');
-        },
-        child: Container(
-          width: 30,
-          margin: EdgeInsets.all(5),
-          child: Icon(
-            Icons.menu,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-      ),
+      // InkWell(
+      //   splashColor: Colors.transparent,
+      //   highlightColor: Colors.transparent,
+      //   onTap: () {
+      //     print('object');
+      //     _apiServices.signOut().then((value) => print(value));
+      //     Navigator.pushReplacementNamed(context, '/');
+      //   },
+      //   child: Container(
+      //     width: 30,
+      //     margin: EdgeInsets.all(5),
+      //     child: Icon(
+      //       Icons.menu,
+      //       color: Colors.black,
+      //       size: 24,
+      //     ),
+      //   ),
+      // ),
       Container(
         width: 22,
       )

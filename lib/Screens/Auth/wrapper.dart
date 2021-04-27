@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shop714/Screens/HomeScreen/home_screen.dart';
 import 'package:shop714/Screens/LoginScreen/login_screen.dart';
 import 'package:shop714/State/app_state.dart';
+import 'package:shop714/const/const.dart';
 
 class Wrapper extends StatelessWidget {
   static String routeName = '/';
@@ -55,7 +56,7 @@ class Wrapper extends StatelessWidget {
             context, LoginScreen.routeName, (route) => false);
       } else {
         print("User signed in");
-        _provider.setUserId(id: user.uid);
+        _provider.setUserIdAndEmail(id: user.uid, email: user.email);
         _provider.getProductList();
         _provider.getCategoryList().then((value) {
           Navigator.pushNamedAndRemoveUntil(
@@ -65,13 +66,13 @@ class Wrapper extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xff002b5c),
       body: Center(
         child: Hero(
           tag: 'first',
           child: Container(
-            height: 60,
-            child: Image.asset('assets/images/logo.PNG'),
+            height: 200,
+            child: Image.asset('assets/images/splash.png'),
           ),
         ),
       ),

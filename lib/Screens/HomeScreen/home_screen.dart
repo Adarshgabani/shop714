@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shop714/Models/category_model.dart';
 import 'package:shop714/Screens/Auth/firebase_api.dart';
+import 'package:shop714/Screens/CartScreen/cart_screen.dart';
 import 'package:shop714/Screens/Categories/Categories.dart';
 import 'package:shop714/Screens/Category/category_screen.dart';
 import 'package:shop714/State/app_state.dart';
@@ -17,6 +18,7 @@ import 'package:shop714/size_config.dart';
 class HomeScreen extends StatelessWidget {
   static String routeName = '/home';
   FirebaseDbApi _firebaseDbApi = FirebaseDbApi();
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -31,8 +33,50 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+        drawer: DrawerWidget(context: context, email: _provider.userEmail),
         backgroundColor: Colors.white,
-        appBar: AppBarWidget(context),
+        appBar: AppBar(
+          leadingWidth: 50, // <-- Use this
+          centerTitle: false, // <-- and this
+          leading: Builder(
+              builder: (context) => Container(
+                    margin: EdgeInsets.only(left: 30),
+                    child: InkWell(
+                      onTap: () => Scaffold.of(context).openDrawer(),
+                      child: Icon(
+                        Icons.menu,
+                        color: Colors.black,
+                        size: 28,
+                      ),
+                    ),
+                  )),
+          actions: [
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Icon(
+                Icons.shopping_cart,
+                color: Colors.black,
+                size: 22,
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, CartScreen.routeName);
+              },
+            ),
+            Container(
+              width: 30,
+            )
+          ],
+
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Image.asset(
+            'assets/images/logo.png',
+            // fit: BoxFit.fitHeight,
+            width: 100,
+            // height: 50,
+          ),
+        ),
         body: RefreshIndicator(
           color: Colors.orange,
           triggerMode: RefreshIndicatorTriggerMode.onEdge,

@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop714/Screens/Auth/firebase_api.dart';
 import 'package:shop714/Screens/HomeScreen/home_screen.dart';
 import 'package:shop714/Screens/RegisterScreen/register_screen.dart';
@@ -54,92 +56,142 @@ class _LoginScreenState extends State<LoginScreen> {
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              height: 1,
-            ),
-            Form(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: kWidth40),
+        child: LayoutBuilder(
+          builder: (context, constraints) =>
+              NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (overScroll) {
+              overScroll.disallowGlow();
+              return;
+            },
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Hero(
-                      tag: 'first',
-                      child: Container(
-                        width: kWidth250,
-                        margin: EdgeInsets.only(
-                          bottom: kHeight30,
-                        ),
-                        child: Image.asset(
-                          'assets/images/logo.PNG',
-                          width: kWidth250,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 1,
+                    ),
+                    Form(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: kWidth40),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Hero(
+                              tag: 'first',
+                              child: Container(
+                                height: 80,
+                                margin: EdgeInsets.only(
+                                  bottom: kHeight30,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Center(
+                                      child: ColorFiltered(
+                                        colorFilter: ColorFilter.mode(
+                                            kBlueColor, BlendMode.overlay),
+                                        child: Image.asset(
+                                          'assets/images/a.png',
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 0,
+                                      child: Container(
+                                        margin: EdgeInsets.zero,
+                                        padding: EdgeInsets.zero,
+                                        width: 300,
+                                        height: 2,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 12),
+                                            child: Text(
+                                              "714",
+                                              style: TextStyle(
+                                                  fontFamily: 'Playfair',
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12),
+                                            ))),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            TextFieldComponent(
+                              controller: _emailController,
+                              lable: 'Email',
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextFieldComponent(
+                              controller: _passwordController,
+                              lable: 'Password',
+                              obSecureText: true,
+                              keyboardType: TextInputType.visiblePassword,
+                              password: true,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            ButtonComponent(
+                              label: 'LOGIN',
+                              onPressed: () {
+                                // _email = _emailController.text;
+                                // _password = _passwordController.text;
+                                String _validation = _validateForm(
+                                    _emailController.text,
+                                    _passwordController.text);
+                                if (_validation == null) {
+                                  FocusScope.of(context)
+                                      .unfocus(); //to hide keyboard
+                                  _apiServices
+                                      .signInWithEmail(
+                                          email: _emailController.text,
+                                          password: _passwordController.text)
+                                      .then((res) {
+                                    if (res == "success") {
+                                      print("Success Fully loggedin");
+                                      _emailController.clear();
+                                      _passwordController.clear();
+                                      Navigator.pushReplacementNamed(
+                                          context, HomeScreen.routeName);
+                                    } else {
+                                      print(res);
+                                      _errorMessage(context, res);
+                                    }
+                                  });
+                                } else {
+                                  _errorMessage(context, _validation);
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    TextFieldComponent(
-                      controller: _emailController,
-                      lable: 'Email',
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldComponent(
-                      controller: _passwordController,
-                      lable: 'Password',
-                      obSecureText: true,
-                      keyboardType: TextInputType.visiblePassword,
-                      password: true,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ButtonComponent(
-                      label: 'LOGIN',
-
-                      onPressed: () {
-                        // _email = _emailController.text;
-                        // _password = _passwordController.text;
-                        String _validation = _validateForm(
-                            _emailController.text, _passwordController.text);
-                        if (_validation == null) {
-                          FocusScope.of(context).unfocus(); //to hide keyboard
-                          _apiServices
-                              .signInWithEmail(
-                                  email: _emailController.text,
-                                  password: _passwordController.text)
-                              .then((res) {
-                            if (res == "success") {
-                              print("Success Fully loggedin");
-                              _emailController.clear();
-                              _passwordController.clear();
-                              Navigator.pushReplacementNamed(
-                                  context, HomeScreen.routeName);
-                            } else {
-                              print(res);
-                              _errorMessage(context, res);
-                            }
-                          });
-                        } else {
-                          _errorMessage(context, _validation);
-                        }
+                    LinkText(
+                      textMessage: 'Not a member ? ',
+                      link: 'Signup now',
+                      onTap: () {
+                        Navigator.pushNamed(context, RegisterScreen.routeName);
                       },
                     ),
                   ],
                 ),
               ),
             ),
-            LinkText(
-              textMessage: 'Not a member ? ',
-              link: 'Signup now',
-              onTap: () {
-                Navigator.pushNamed(context, RegisterScreen.routeName);
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

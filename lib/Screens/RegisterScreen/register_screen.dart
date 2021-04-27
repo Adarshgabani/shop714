@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop714/Screens/Auth/firebase_api.dart';
 import 'package:shop714/Screens/HomeScreen/home_screen.dart';
 import 'package:shop714/components/button_component.dart';
@@ -123,108 +124,161 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       key: _scaffoldKey,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              height: 1,
-            ),
-            Form(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: kWidth40),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Hero(
-                      tag: 'first',
-                      child: Container(
-                        width: kWidth250,
-                        margin: EdgeInsets.only(
-                          bottom: kHeight30,
-                        ),
-                        child: Image.asset(
-                          'assets/images/logo.PNG',
-                          width: kWidth250,
+        child: LayoutBuilder(
+          builder: (context, constraints) =>
+              NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (overScroll) {
+              overScroll.disallowGlow();
+              return;
+            },
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 1,
+                      ),
+                      Form(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: kWidth40),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Hero(
+                                tag: 'first',
+                                child: Container(
+                                  height: 80,
+                                  margin: EdgeInsets.only(
+                                    bottom: kHeight30,
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Center(
+                                        child: ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                              kBlueColor, BlendMode.overlay),
+                                          child: Image.asset(
+                                            'assets/images/a.png',
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 0,
+                                        child: Container(
+                                          margin: EdgeInsets.zero,
+                                          padding: EdgeInsets.zero,
+                                          width: 300,
+                                          height: 2,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 12),
+                                              child: Text(
+                                                "714",
+                                                style: TextStyle(
+                                                    fontFamily: 'Playfair',
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
+                                              ))),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              TextFieldComponent(
+                                controller: _emailController,
+                                lable: 'Email',
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFieldComponent(
+                                controller: _passwordController,
+                                lable: 'Password',
+                                obSecureText: true,
+                                keyboardType: TextInputType.visiblePassword,
+                                password: true,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFieldComponent(
+                                controller: _conPasswordController,
+                                lable: 'Confirm Password',
+                                obSecureText: true,
+                                keyboardType: TextInputType.visiblePassword,
+                                password: true,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ButtonComponent(
+                                label: 'Register',
+                                onPressed: () {
+                                  String _validation = _validateForm(
+                                      _emailController.text,
+                                      _passwordController.text,
+                                      _conPasswordController.text);
+                                  //
+                                  if (_validation == null) {
+                                    FocusScope.of(context)
+                                        .unfocus(); //to hide keyboard
+                                    // _submitForm(context, model.email, model.password);
+                                    print('Validate');
+                                    _apiServices
+                                        .createUserWithEmail(
+                                            email: _emailController.text,
+                                            password: _passwordController.text)
+                                        .then((res) {
+                                      if (res == "success") {
+                                        print("User crated Successfully");
+
+                                        _emailController.clear();
+                                        _passwordController.clear();
+                                        _conPasswordController.clear();
+                                        Navigator.pushReplacementNamed(
+                                            context, HomeScreen.routeName);
+                                      } else {
+                                        print("Error : " + res);
+                                        _errorMessage(context, res);
+                                      }
+                                    });
+                                  } else {
+                                    print(_validation);
+                                    _errorMessage(context, _validation);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    TextFieldComponent(
-                      controller: _emailController,
-                      lable: 'Email',
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldComponent(
-                      controller: _passwordController,
-                      lable: 'Password',
-                      obSecureText: true,
-                      keyboardType: TextInputType.visiblePassword,
-                      password: true,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldComponent(
-                      controller: _conPasswordController,
-                      lable: 'Confirm Password',
-                      obSecureText: true,
-                      keyboardType: TextInputType.visiblePassword,
-                      password: true,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ButtonComponent(
-                      label: 'Register',
-                      onPressed: () {
-                        String _validation = _validateForm(
-                            _emailController.text,
-                            _passwordController.text,
-                            _conPasswordController.text);
-                        //
-                        if (_validation == null) {
-                          FocusScope.of(context).unfocus(); //to hide keyboard
-                          // _submitForm(context, model.email, model.password);
-                          print('Validate');
-                          _apiServices
-                              .createUserWithEmail(
-                                  email: _emailController.text,
-                                  password: _passwordController.text)
-                              .then((res) {
-                            if (res == "success") {
-                              print("User crated Successfully");
-
-                              _emailController.clear();
-                              _passwordController.clear();
-                              _conPasswordController.clear();
-                              Navigator.pushReplacementNamed(
-                                  context, HomeScreen.routeName);
-                            } else {
-                              print("Error : " + res);
-                              _errorMessage(context, res);
-                            }
-                          });
-                        } else {
-                          print(_validation);
-                          _errorMessage(context, _validation);
-                        }
-                      },
-                    ),
-                  ],
+                      LinkText(
+                          textMessage: 'Already a member ? ',
+                          link: 'Sign In',
+                          onTap: () {
+                            Navigator.pop(context);
+                          }),
+                    ],
+                  ),
                 ),
               ),
             ),
-            LinkText(
-                textMessage: 'Already a member ? ',
-                link: 'Sign In',
-                onTap: () {
-                  Navigator.pop(context);
-                }),
-          ],
+          ),
         ),
       ),
     );
