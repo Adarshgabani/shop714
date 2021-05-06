@@ -60,6 +60,11 @@ class CartServices {
     return list;
   }
 
+  Future<void> clearSP() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    _pref.clear();
+  }
+
   Future<void> deleteItem(String itemId) async {
     list = await loadData();
 

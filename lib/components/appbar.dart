@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop714/Screens/Auth/firebase_api.dart';
 import 'package:shop714/Screens/Auth/wrapper.dart';
 import 'package:shop714/Screens/CartScreen/cart_screen.dart';
-import 'package:shop714/Screens/ChangePasswordScreen/change_password_screen.dart';
+import 'package:shop714/Screens/OrdersScreen/orders_screen.dart';
 import 'package:shop714/const/const.dart';
 
 Widget createDrawerBodyItem(
@@ -29,35 +29,41 @@ Widget DrawerWidget({BuildContext context, String email = "Guest"}) {
     Navigator.pushReplacementNamed(context, Wrapper.routeName);
   }
 
-  return Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        UserAccountsDrawerHeader(
-          decoration: BoxDecoration(color: kGreyBGColor),
-          accountName: Text(
-            email ?? 'Email',
-            style: TextStyle(color: Colors.black),
-          ),
-          currentAccountPicture: CircleAvatar(
-            backgroundColor: kGreyBorderColor,
-            child: Text(
-              email == null ? 'E' : email[0].toUpperCase(),
-              style: TextStyle(fontSize: 40, color: Colors.black),
+  return Container(
+    width: MediaQuery.of(context).size.width * 0.7,
+    child: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(color: kGreyBGColor),
+            accountName: Text(
+              email ?? 'Email',
+              style: TextStyle(color: Colors.black),
+            ),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: kGreyBorderColor,
+              child: Text(
+                email == null ? 'E' : email[0].toUpperCase(),
+                style: TextStyle(fontSize: 40, color: Colors.black),
+              ),
             ),
           ),
-        ),
-        createDrawerBodyItem(
-            icon: Icons.security,
-            text: "Change Password",
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, ChangePasswordScreen.routeName);
-            }),
-        createDrawerBodyItem(icon: Icons.shopping_cart, text: "Cart"),
-        createDrawerBodyItem(
-            icon: Icons.logout, text: "Logout", onTap: () => _signout()),
-      ],
+          createDrawerBodyItem(
+              icon: Icons.shopping_bag,
+              text: "Your Orders",
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, OrdersScreen.routeName);
+              }),
+          createDrawerBodyItem(
+              icon: Icons.shopping_cart,
+              text: "Cart Items",
+              onTap: () => Navigator.pushNamed(context, CartScreen.routeName)),
+          createDrawerBodyItem(
+              icon: Icons.logout, text: "Logout", onTap: () => _signout()),
+        ],
+      ),
     ),
   );
 }
@@ -101,7 +107,7 @@ AppBar AppBarWidget(BuildContext context) {
       //   ),
       // ),
       Container(
-        width: 22,
+        width: 30,
       )
     ],
     title: Hero(
@@ -133,7 +139,10 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 0,
+    leadingWidth: 80,
     automaticallyImplyLeading: false,
+    centerTitle: true,
+    titleSpacing: 10,
     actions: [
       InkWell(
         splashColor: Colors.transparent,
@@ -166,10 +175,9 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
       //   ),
       // ),
       Container(
-        width: 22,
+        width: 30,
       )
     ],
-    leadingWidth: 80,
     leading: Hero(
       tag: "back",
       child: Container(
@@ -188,8 +196,6 @@ AppBar AppBarWithCartWidget({BuildContext context, String title}) {
         ),
       ),
     ),
-    centerTitle: true,
-    titleSpacing: 10,
     title: Text(
       title,
       style: TextStyle(color: Colors.black, fontSize: 18),

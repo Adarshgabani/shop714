@@ -7,10 +7,16 @@ import 'package:shop714/db/firebase_realtime_db.dart';
 class AppDataState extends ChangeNotifier {
   String userId;
   String userEmail;
+  bool isData = false;
   FirebaseDbApi _db = FirebaseDbApi();
   List<CategoryModel> categoryList = [];
   List<ProductModel> productList = [];
   List<AdsModel> adsList = [];
+
+  void toggleIsData() {
+    isData = !isData;
+    notifyListeners();
+  }
 
   void setUserIdAndEmail({String id, String email}) {
     userId = id;

@@ -39,10 +39,10 @@ class HomeScreen extends StatelessWidget {
           leadingWidth: 50, // <-- Use this
           centerTitle: false, // <-- and this
           leading: Builder(
-              builder: (context) => Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: InkWell(
-                      onTap: () => Scaffold.of(context).openDrawer(),
+              builder: (context) => InkWell(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: Container(
+                      margin: EdgeInsets.only(left: 26),
                       child: Icon(
                         Icons.menu,
                         color: Colors.black,

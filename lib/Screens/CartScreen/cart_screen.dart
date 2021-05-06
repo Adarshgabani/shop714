@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop714/Models/order_model.dart';
 import 'package:shop714/Screens/CartScreen/CartItems/cart_item.dart';
 import 'package:shop714/Screens/CartScreen/CartItems/cart_services.dart';
 import 'package:shop714/Screens/HomeScreen/home_screen.dart';
+import 'package:shop714/Screens/YourOrderScreen/your_order_screen.dart';
+import 'package:shop714/State/app_state.dart';
 import 'package:shop714/components/appbar.dart';
 import 'package:shop714/components/cart_button.dart';
 import 'package:shop714/components/cart_product.dart';
 import 'package:shop714/const/const.dart';
+import 'package:shop714/db/cloud_firestore.dart';
 import 'package:shop714/size_config.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -18,6 +23,15 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   CartServices cartServices = CartServices();
+  CloudFirestoreAPI _cloudFirestoreAPI = CloudFirestoreAPI();
+  Future<Map<String, dynamic>> _onTap() async {
+    List d = await cartServices.loadData().then((value) => value
+        .map((e) =>
+            OrderModel(productId: e.itemId, quantity: int.parse(e.quantity))
+                .toMap())
+        .toList());
+    return {"order": d};
+  }
 
   @override
   void initState() {
@@ -29,6 +43,8 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    var _provider = Provider.of<AppDataState>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CartScreenAppBarWidget(context: context),
@@ -47,11 +63,65 @@ class _CartScreenState extends State<CartScreen> {
                     return Container(
                       child: Text('waiting....'),
                     );
-                  } else if (snapshot.hasData == null) {
-                    return Container(
-                      child: Text('Nothing in cart'),
+                  } else if (snapshot.data?.length == 0) {
+                    Future.delayed(Duration(milliseconds: 0), () async {
+                      if (_provider.isData) {
+                        _provider.toggleIsData();
+                      }
+                    });
+                    return Stack(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.8,
+                          // color: Colors.red,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Icon(
+                                  Icons.do_not_disturb,
+                                  size: 50,
+                                  color: Colors.black26,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Center(
+                                child: Text(
+                                  'No Item In Cart',
+                                  style: TextStyle(color: Colors.black26),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 20),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: CartButton(
+                              buttonHeight: 50,
+                              fontSize: 18,
+                              label: 'PLACE A NEW ORDER',
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        )
+                      ],
                     );
                   } else if (snapshot.hasData) {
+                    print(_provider.isData);
+
+                    Future.delayed(Duration(milliseconds: 0), () async {
+                      if (!_provider.isData) {
+                        _provider.toggleIsData();
+                      }
+                    });
+
                     print("CART DATA ${snapshot.data.length}");
 
                     List<CartItem> cartItemList = snapshot.data;
@@ -152,18 +222,32 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 30),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: CartButton(
-                  buttonHeight: 50,
-                  fontSize: 18,
-                  label: 'Proceed To Checkout',
-                  onPressed: () {},
-                ),
-              ),
-            )
+            _provider.isData
+                ? Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CartButton(
+                        buttonHeight: 50,
+                        fontSize: 18,
+                        label: 'Proceed To Checkout',
+                        onPressed: () async {
+                          String uid = _provider.userId;
+                          print(uid);
+                          _onTap().then((value) => _cloudFirestoreAPI
+                                  .addOrder(userId: uid, data: value)
+                                  .then((value) {
+                                cartServices.clearSP();
+                                print(value);
+                                Navigator.popAndPushNamed(
+                                    context, YourOrderScreen.routeName,
+                                    arguments: YourOrderArgs(orderId: value));
+                              }));
+                        },
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
