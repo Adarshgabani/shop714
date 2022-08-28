@@ -52,15 +52,13 @@ class Wrapper extends StatelessWidget {
     _auth.authStateChanges().listen((User user) {
       if (user == null) {
         print("currently signed out!!");
-        Navigator.pushNamedAndRemoveUntil(
-            context, LoginScreen.routeName, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (route) => false);
       } else {
         print("User signed in");
         _provider.setUserIdAndEmail(id: user.uid, email: user.email);
         _provider.getProductList();
         _provider.getCategoryList().then((value) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreen.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false);
         });
       }
     });
@@ -72,7 +70,7 @@ class Wrapper extends StatelessWidget {
           tag: 'first',
           child: Container(
             height: 200,
-            child: Image.asset('assets/images/splash.png'),
+            child: Image.asset('assets/images/a.png'),
           ),
         ),
       ),

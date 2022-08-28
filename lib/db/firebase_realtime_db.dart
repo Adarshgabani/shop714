@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shop714/Models/ads_model.dart';
 import 'package:shop714/Models/category_model.dart';
@@ -11,14 +13,12 @@ class FirebaseDbApi {
     await _firebasedb.once().then((res) {
       data = res.value['categories']['data'];
     });
+    print('------data:${data}');
 
-    return data
-        .map((element) => CategoryModel(
-            id: element['id'].toString(),
-            name: element["name"].toString(),
-            imageUrl: element["image_url"].toString(),
-            productIds: element["product_ids"]))
-        .toList();
+    return data.map((element) {
+      log(element.toString());
+      return CategoryModel(id: element['id'].toString(), name: element["name"].toString(), imageUrl: element["image_url"].toString(), productIds: element["product_ids"]);
+    }).toList();
   }
 
   Future<List<ProductModel>> getProductData() async {
@@ -50,8 +50,6 @@ class FirebaseDbApi {
       data = res.value['ads']['data'];
     });
 
-    return data
-        .map((e) => AdsModel(imageUrl: e["image_url"].toString()))
-        .toList();
+    return data.map((e) => AdsModel(imageUrl: e["image_url"].toString())).toList();
   }
 }

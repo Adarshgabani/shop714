@@ -24,12 +24,8 @@ class HomeScreen extends StatelessWidget {
     SizeConfig().init(context);
     var _provider = Provider.of<AppDataState>(context);
     Future<void> _fetchData() async {
-      await _firebaseDbApi
-          .getProductData()
-          .then((value) => _provider.setProductList(data: value));
-      await _firebaseDbApi
-          .getCategoryData()
-          .then((value) => _provider.setCategoryList(data: value));
+      await _firebaseDbApi.getProductData().then((value) => _provider.setProductList(data: value));
+      await _firebaseDbApi.getCategoryData().then((value) => _provider.setCategoryList(data: value));
     }
 
     return Scaffold(
@@ -70,12 +66,16 @@ class HomeScreen extends StatelessWidget {
 
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Image.asset(
-            'assets/images/logo.png',
-            // fit: BoxFit.fitHeight,
-            width: 100,
-            // height: 50,
+          title: Text(
+            'HOME SCREEN',
+            style: TextStyle(color: Colors.black),
           ),
+          // title: Image.asset(
+          //   'assets/images/logo.png',
+          //   // fit: BoxFit.fitHeight,
+          //   width: 100,
+          //   // height: 50,
+          // ),
         ),
         body: RefreshIndicator(
           color: Colors.orange,
@@ -108,9 +108,7 @@ class HomeScreen extends StatelessWidget {
                     FutureBuilder<List<CategoryModel>>(
                         future: _provider.getCategoryList(),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.hasData == null) {
+                          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData == null) {
                             return Container(
                               child: Text('waiting....'),
                             );
@@ -133,9 +131,7 @@ class HomeScreen extends StatelessWidget {
                             return Shimmer.fromColors(
                                 child: Container(
                                   height: kWidth170,
-                                  decoration: BoxDecoration(
-                                      color: kGreyBGColor,
-                                      borderRadius: BorderRadius.circular(10)),
+                                  decoration: BoxDecoration(color: kGreyBGColor, borderRadius: BorderRadius.circular(10)),
                                 ),
                                 baseColor: kGreyBGColor,
                                 highlightColor: Colors.white);

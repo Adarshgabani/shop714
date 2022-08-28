@@ -57,8 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: LayoutBuilder(
-          builder: (context, constraints) =>
-              NotificationListener<OverscrollIndicatorNotification>(
+          builder: (context, constraints) => NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overScroll) {
               overScroll.disallowGlow();
               return;
@@ -91,8 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   children: [
                                     Center(
                                       child: ColorFiltered(
-                                        colorFilter: ColorFilter.mode(
-                                            kBlueColor, BlendMode.overlay),
+                                        colorFilter: ColorFilter.mode(kBlueColor, BlendMode.overlay),
                                         child: Image.asset(
                                           'assets/images/a.png',
                                           fit: BoxFit.fitHeight,
@@ -109,19 +107,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 12),
-                                            child: Text(
-                                              "714",
-                                              style: TextStyle(
-                                                  fontFamily: 'Playfair',
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12),
-                                            ))),
+                                    // Align(
+                                    //     alignment: Alignment.bottomCenter,
+                                    //     child: Padding(
+                                    //         padding:
+                                    //             EdgeInsets.only(bottom: 12),
+                                    //         child: Text(
+                                    //           "714",
+                                    //           style: TextStyle(
+                                    //               fontFamily: 'Playfair',
+                                    //               color: Colors.white,
+                                    //               fontWeight: FontWeight.bold,
+                                    //               fontSize: 12),
+                                    //         ))),
                                   ],
                                 ),
                               ),
@@ -149,23 +147,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () {
                                 // _email = _emailController.text;
                                 // _password = _passwordController.text;
-                                String _validation = _validateForm(
-                                    _emailController.text,
-                                    _passwordController.text);
+                                String _validation = _validateForm(_emailController.text, _passwordController.text);
                                 if (_validation == null) {
-                                  FocusScope.of(context)
-                                      .unfocus(); //to hide keyboard
-                                  _apiServices
-                                      .signInWithEmail(
-                                          email: _emailController.text,
-                                          password: _passwordController.text)
-                                      .then((res) {
+                                  FocusScope.of(context).unfocus(); //to hide keyboard
+                                  _apiServices.signInWithEmail(email: _emailController.text, password: _passwordController.text).then((res) {
                                     if (res == "success") {
                                       print("Success Fully loggedin");
                                       _emailController.clear();
                                       _passwordController.clear();
-                                      Navigator.pushReplacementNamed(
-                                          context, HomeScreen.routeName);
+                                      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
                                     } else {
                                       print(res);
                                       _errorMessage(context, res);

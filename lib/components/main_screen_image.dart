@@ -12,11 +12,7 @@ class MainScreenImage extends StatelessWidget {
     return Container(
       // width: double.infinity,
       height: kHeight250,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-              fit: BoxFit.fill,
-              image: ExactAssetImage('assets/images/main.jpg'))),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), image: DecorationImage(fit: BoxFit.fill, image: ExactAssetImage('assets/images/main.jpeg'))),
       // child: Image.asset('assets/images/main.jpg'),
     );
   }
@@ -106,9 +102,7 @@ class _AdsSliderImagesState extends State<AdsSliderImages> {
               margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _current == index
-                    ? Color.fromRGBO(0, 0, 0, 0.9)
-                    : Color.fromRGBO(0, 0, 0, 0.4),
+                color: _current == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
               ),
             );
           }).toList(),
